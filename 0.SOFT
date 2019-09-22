@@ -445,18 +445,45 @@ sudo apt-get autoremove
 
 
 
-23. github
-github ssh加密方式的配置
-ssh的秘钥一般放在~/.ssh的隐藏文件中，~/.ssh/中的public秘钥，复制到git服务其中
-https://help.github.com/en/articles/connecting-to-github-with-ssh
-
-
 24. xclip 
 剪切板缓存区，用于将字符串放入剪切板实现黏贴
 
 sudo apt-get install xclip
 
 xclip -sel clip < ~/.ssh/id_rsa.pub  将文件放入缓存区，实现黏贴
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

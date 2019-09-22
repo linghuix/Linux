@@ -1,0 +1,94 @@
+﻿图片：
+第一条变化已经上传到stage，但还没有commit到master
+第二条变化历史版本在 stage 但还没有重新add。
+第三条变化还没有 add 进 stage
+
+---------------------------------------------------
+git init			
+//intialize the repository
+
+git add filename		
+//add the file to the stage(repository)
+
+git commit -m "explanation"	
+//submit the file to the master(repository)
+----------------------------------------------------
+git status		
+//see the status of the repository ,which is essential.
+----------------------------------------------------
+when you modify your files,you can use "git status" to see whether you have submit it to the repository.if not ,please use the following commands.Don't forget to use "git status" to know what you have done.
+
+git diff filename
+git diff HEAD -- filename		
+//(difference)to see things changed in the file ,only some type files.
+git add filename
+git commit
+-----------------------------------------------------
+git log or git log --pretty=oneline		
+//you can check the history of your modification
+
+git reset --hard ID  or  git reset --hard HEAD@{1}
+//change the branch,choose the historical version
+-----------------------------------------------------
+change the files in working directory.
+
+git reset HEAD filename		
+//synchronize or stage(repository) with work directory 
+
+git checkout -- filename
+//discard the changes in working directory	
+
+-----------------------------------------------------
+git branch name
+//create new branch
+git checkout branchname
+//switch to the new branch
+git branch -d name
+//delete the branch
+git checkout master
+git merge --no-off -m "blabla" branchname
+//merge the branch to the master
+git log --graph
+//see the graph of the version history
+------------------------------------------------------
+
+git tag name/ID			//create a new tag which is stable for realease like v1.01;v2.20
+-a tagname -m "balabla..."	//add message
+-s tagname -m "balala..."	//use unique PGP signature 
+git tag				//see all the tags
+---------------------------------------------------
+git remote add origin git@github.com:path/repo-name.git(http://github.com/xulinghui10/name.git)
+//associate the remote repository
+git push -u origin master
+//frist push to the remote repository.after that you can use "git push origin master"
+git clone git@github.com:path/repo-name.git(http://github.com/xulinghui10/name.git)
+//clone the repository from remote your own repository
+git pull
+
+看远程的提交日志：git log remotes/origin/master 
+当然如果你的本地很久没有更新过远程仓库的信息了，看到的日志可能就不是最新的
+所以在查看之前需要先运行
+git fetch 或者git fetch origin
+
+
+
+error1	conflict in push
+
+	$ git push testremote  
+	To ../remote-jackygit.git  
+ 	! [rejected]        master -> master (fetch first)  
+	error: failed to push some refs to '../remote-jackygit.git'  
+	hint: Updates were rejected because the remote contains work that you do  
+	hint: not have locally. This is usually caused by another repository pushing  
+	hint: to the same ref. You may want to first integrate the remote changes  
+	hint: (e.g., 'git pull ...') before pushing again.  
+	hint: See the 'Note about fast-forwards' in 'git push --help' for details. 
+
+
+被push的分支能够回溯到的commit都会被push到远程仓库
+
+远程分支回滚的三种方法：1.自己的分支回滚直接用reset
+			2.公共分支回滚用revert
+			3.错的太远了直接将代码全部删掉，用正确代码替代
+
+“Clone with HTTPS”，上面的连接就是这个仓库的远程访问地址！

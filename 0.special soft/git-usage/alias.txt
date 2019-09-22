@@ -1,0 +1,5 @@
+git lg
+git cm
+git br
+git st
+master--ms
