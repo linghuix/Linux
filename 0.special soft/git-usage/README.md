@@ -56,3 +56,11 @@ git push -f --set-upstream [origin] [master]
 ssh的秘钥一般放在~/.ssh的隐藏文件中，~/.ssh/中的public秘钥，复制到git服务其中
 
 注意，一对ssh公钥与私钥只能绑定一个仓库！！！！
+
+## error
+
+error: src refspec master does not match any
+引起该错误的原因是，目录中没有文件，空目录是不能提交上去的
+
+Merge made by the 'recursive' strategy
+git合并2个分支的策略
