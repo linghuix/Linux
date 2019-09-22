@@ -1,0 +1,260 @@
+# using "--help" you can see the detail usage of the command
+
+grub-install 
+--boot-directory=DIR   install GRUB images under the directory DIR/grub
+                             instead of the boot/grub directory
+
+apt-get
+apt install <selected package>
+most powerful package manager
+
+dpkg -i file_name
+install .deb file
+
+# 1. 显示命令
+1.1 echo 
+回显。 
+echo 'hello' ： ~ "hello!" ： ~ hello 
+\ 转义字符, ~ -e "\e[1;31m fdsfsdfs\e[0m "  ： ~ "文档名字叫做\"shell 从入门到放弃\""   
+ ~ -ne   -e "1\t2" 在双引号中使用转义字符  -n 忽略回车
+默认""内部执行计算，比如$运算。	''内部不执行计算，
+echo $IFS 无法显示",", 但是使用 echo "$IFS"就可以显示","
+例子：使得备份的文件有相应的时间戳 cat file "file_back_$(date)"
+
+1.2 printf
+printf "%-10s%s%c%d%f%-4.2f" string
+
+1.3 重定向
+文件描述符>文件设备
+0>stdin 标准输入设备
+1>stdout 标准输出设备
+2>stderr  标准错误设备  这三个设备文件位于dev/
+echo "scale=50;sqrt(50)"|b &>> temp  同时将1和2文件流追加到temp文件中
+
+1.4 创建文件描述符exec
+exec 3<temp创建文件描述符3，以此打开并读取temp文件。  cat <&3 进行内容显示，文件描述符读完就没了
+exec 3>temp创建文件描述符3，用于写入
+>>表示追加
+
+# 2. 文件系统操作
+
+2.1 目录管理
+
+ls 
+list的缩写,可以查看目录内容信息
+
+makdir 
+make directory
+
+cd
+切换目录。cd ..返回上一级目录 cd / 进入根目录 cd ~ 进入用户目录 cd ./ 当前目录
+
+技巧：
+1. 在图形目录窗口可以右键打开终端，这样终端显示目录就是该窗口目录
+2. 在终端右键打开终端，这样生成的终端目录就会和原始终端相同
+
+rm
+remove 删除一个目录中的多个文件或者目录。  -i 删前询问
+
+rmdir
+从一个目录中删除一个或者多个子目录项。不能删除非空目录
+
+mv
+move的缩写，用于移动文件或者修改文件名称。
+
+cp
+copy的缩写，用于复制文件到目标
+
+2.2 文件浏览
+
+cat
+浏览文件内容的强大工具。可以使用通配符 cat a*
+
+more 
+浏览文件，逐页阅读。enter 往下移动，默认为一格。q退出。V调用vim。!调用shell命令。
+
+less
+滚动鼠标可随意浏览文件，查看之前不会加载整个文件，并且可以查看多个文件。
+
+
+head
+显示档案的开头至标准输出中，默认打印10行。
+
+tail
+显示指定文件末尾内容。
+
+diff file1 file2 
+查看两个文档的差异，不需要文档按顺序排序
+
+comm file1 file2
+查看两个文档的差异，需要预先进行文档的排序
+
+2.3 文件查找
+
+which
+在path指定路径中查找某个系统命令的位置，返回第一个搜索结果。基于内建数据库，效率很高。 查看当前path，echo $PATH. 
+
+whereis
+只能搜索程序名，二进制，man说明文件和源代码文件。基于内建数据库，效率很高。 
+locate
+搜索系统内建文档数据库达到快读寻找文件。数据库由updatedb来更新，每天跑一次，所以最近新建的可能会找不到。支持正则匹配
+
+find
+在文件树中查找文件。效率较低
+
+2.5 读取
+
+read
+~ -n 2 var	读取2个字符到var中
+~ -s var	不会显方式读取密码，回车结束
+~ -p "Enter password:" var	显示提示信息
+~ -t 2 var	两秒内读取输入到var
+~ -d ":" var	设置界定符作为结束输入行的标志。输入：就会结束(默认为回车)
+
+
+2.6 其他
+
+mount 
+挂载
+
+tar
+压缩和解压文件。本身只有打包功能，压缩是内部调用其他命令实现的
+tar -jxvf linux-source-4.4.0.tar.bz2 -C ./linux/	解压tar.bz2
+
+
+ln 
+建立同步链接
+1. ln -s 源文件 目标文件。  当我们需要在不同的目录，用到相同的文件时，在需要使用的目录下用ln命令链接（link）它就可以，不必重复的占用磁盘空间。
+2. 没有参数-s, 它会在你选定的位置上生成一个和源文件大小相同的文件，占用空间
+无论是软链接还是硬链接，文件都保持同步变化。 
+
+注意：ln中使用的目录都是绝对目录
+
+
+cal
+
+grep
+
+wc
+
+ps
+查看后台执行的进程
+ps -e 显示所有的后台进程
+ps -u XXX 显示某个用户的后台进程
+
+top
+
+kill
+kill -l显示所有的操作，第九号操作是杀死发送死亡信号，19号操作是停止进程
+kill -9 进程ID 就可以杀死程序
+
+free
+
+lsusb
+显示目前USB借口的状态
+
+# 3. 权限
+
+su
+切换用户。默认为root。
+su test 切换到test用户
+
+sudo
+权力下放：通过/etc/sudoers配置， 使用特殊命令时，添加前缀sudo并需要输入自己的密码（而不是root的密码）
+进入root模式. sudo -i 获取root权限。 sudo command 用sudo配置的权限执行命令
+
+chmod
+改变文件或者目录的读写权限
+
+chown
+改变文件的拥有者
+
+visudo
+修改/etc/sudoers的编辑器，有语法检测，防止系统崩溃。
+命令行输入visudo就可以进行编辑，十分方便。
+
+useradd
+添加用户
+https://blog.csdn.net/lincyang/article/details/20922749
+
+# 4. 系统状态
+
+函数返回值变量？
+当为非零时，表示刚刚的命令执行失败。读取方式 echo $?
+
+ctrl+D 终止这个进程
+
+pwd 
+当前工作目录路径显示
+
+env
+显示当前终端的环境变量。重要的环境变量有PATH(通常定义在etc/environment)、SHELL、UID(0-超级用户)、USER、PWD、HOME，显示方式$var
+添加bin目录到PATH —— PATH=“$PATH:/home/user/bin”,各个目录之间以冒号分割
+
+pgrep gedit/...
+获取某个进程的ID. [[查看某个进程的环境变量]] cat /proc/ID/environ
+
+fdisk -l
+see the detail information of the disk in the computer linux detects. very powerful cmd.
+
+df -h
+显示挂载文件系统的磁盘使用情况
+
+du
+对文件和目录使用的空间查看。
+
+alias
+alias new_command='old command'
+创建一个别名/新的组合命令，作用域是当前的终端，关闭后就失效了。
+相同别名新的会取代旧的
+如果要永久有效，需要在~/.bash_aliases中添加alias命令行
+
+添加命令：
+echo 'alias install="sudo apt-get install"'>>.bash_aliases
+防止误删除
+echo 'rm="cp $@ ~/backup;rm $@"'>>.bash_aliases 注意单引号必须在最外面
+
+查看存在的别名：直接在命令行输入alias
+
+unalias
+取消别名
+
+\command
+对命令实施转义，即，忽略别名，执行原本的命令
+
+source
+通常用于重新执行刚修改的初始化文件，使之立即生效，而不必注销并重新登录。
+一般的使用情况为 source /etc/profile
+
+logout
+用于退出当前的登录用户，如果是root，那么会返回与原来的用户
+
+
+5. 终端命令
+
+tput	设置终端样式，光标位置
+
+~ longname	打印当前终端的名称
+~ cup 0 0	将终端的光标移动到左上角。0,0表示行和列
+~ cols/lines	打印终端的列数和行数
+~ sc            存储光标位置
+~ rc  		恢复存储的光标位置
+~ ed		清除从当前光标位置到行尾之间的所有内容
+
+stty
+遮盖密码
+stty -echo 禁止将输出发送到终端，可以防止密码显示
+stty echo 允许发送输出
+
+6. 时间
+
+date
+显示日期。详细参考[1]P38
+
+sleep
+延迟一定的时间
+
+
+
+
+参考 [1] linux shell 脚本攻略

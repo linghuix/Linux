@@ -1,0 +1,463 @@
+安装软件
+0.1
+apt-get install	softname
+ 
+apt-get 下载后，软件包所在路径是：
+/var/cache/apt/archives  
+
+ubuntu 默认的PATH为
+PATH=/home/brightman/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:
+/usr/bin:/sbin:/bin:/usr/games
+apt-get install安装目录是包的维护者确定的，不是用户
+$ dpkg -L packagename 可以知道这个软件包包含了哪些文件
+ 
+系统安装软件一般在/usr/share，可执行的文件在/usr/bin，配置文件可能安装到了/etc下等。
+文档一般在 /usr/share
+可执行文件 /usr/bin
+配置文件 /etc
+lib文件 /usr/lib
+
+
+0.2 .deb
+dpkg -i XXX.deb
+
+0.3 .tar.gz
+选择目录，然后解压即可tar zxvf -x.x.x.tar.gz
+使用前需要配置环境，在/etc/profile中添加环境这个软件的可执行目录： export 该目录
+注意：profile 只有在进root账户时才能启动。普通用户必须手动启动profile配置，source /etc/profile
+或者在.bashrc文件。添加export PATH="/xxx/xxx//Qtx.x.x/x.x/gcc/bin":$PATH
+
+
+删除软件
+0.1 如果是使用apt-get安装的软件，可使用
+apt-get remove softname
+apt-get autoclean
+~ clean
+~ autoremove
+
+0.2 if it is installed by .deb
+use "dpkg -r xxx.deb"
+dpkg -P softname 删除软件(包含配置文件)
+dpkg -l 列出安装的包
+
+0.3 if it is compiled by row codes
+cd code_dir
+make clean
+./configure
+make uninstall
+rm -rf code_dir
+
+
+1. sudo apt-get install Okular      
+强大的pdf编辑器。可添加书签，笔记标签，用于总结和指示相关内容的位置。
+对于可选择字体的pdf来说做笔记比较方便，但是笔记的字体颜色，等方面比较差。
+对于图片类的pdf只能用鼠标划重点。
+
+
+2. python 
+write and run python code
+Python 解释器和编辑器。
+
+
+3. sudo apt-get install GoldenDict
+词典，可以调用网络API实现查词，必须联网。
+
+4. fcitx输入法框架
+在这个框架下有好多输入法，比如搜狗拼音输入法、谷歌拼音输入法、Sun拼音输入法等等。命令行安装法
+sudo add-apt-repository ppa:fcitx-team/nightly
+sudo apt-get update			#更新Ubuntu的软件列表
+sudo apt-get install fcitx #安装输入法框架
+或者可以去software搜索一下fcitx，下载
+
+下面是一些输入法的安装命令
+sudo apt-get install fcitx-cloudpinyin #安装cloudpinyin输入法
+sudo apt-get install fcitx-googlepinyin #安装googlepinyin输入法
+sudo apt-get install fcitx-libpinyin #安装libpinyin输入法
+sudo apt install fcitx-mozc fcitx-anthy #安装Anthy输入法，很好用的日语输入法
+
+搜狗输入法需要先去下载deb安装包
+wget http://download.ime.sogou.com/1408440412/sogou_pinyin_linux_1.1.0.0037_amd64.deb?st=0O0Eo83ERv_AdtnazeVA8Q&e=1418216692&fn=sogou_pinyin_linux_1.1.0.0037_amd64.deb
+sudo dpkg -i sogou_pinyin_linux_1.1.0.0037_amd64.deb 
+
+也可以在图形界面点开fcitx，选择安装这个框架下的输入法
+安装好后，需要注销一下，重新登录
+
+
+5. 自带截图软件
+shift + Prtsc
+
+
+6. g++/c++
+C++编译器
+语法：
+g++ file.cpp -o <二进制可执行文件名>		代码查看输出结果 ./二进制执行文件名
+g++ hellospeak.cpp speak.cpp -o hellospeak
+-c 只编译    输出.o文件
+-S 只链接    输出.s文件
+
+
+7. gcc
+
+gcc [option] file...
+
+option
+-x <language>   指定代码的语言，使得后缀名无效，一般用于.cpp文件以c语言解析
+`c’, `objective-c’, `c-header’, `c++’, `cpp-output’,  `assembler’, and `assembler-with-cpp’.  
+-save-temps	不删除中间文件
+
+... 表示可以输入多个文件
+<> 表示需要输入的额外条件
+
+
+gcc file.cpp -o <二进制可执行文件名>
+-E -o file.i 输出预处理代码文件
+-c 只编译    输出.o文件
+-S 只链接    输出.s文件
+-C 在预处理的时候,不删除注释信息,一般和-E使用,有时候分析程序，用这个很方便的   
+
+-v 可以显示编译过程中的大量信息
+
+-shared -o file.lib 输出位置无关目标码.适用于共享库(shared library). 
+-M  生成文件关联的信息。包含目标文件所依赖的所有源代码你可以用gcc -M hello.c来测试一下，很简单。
+-time 		显示代码执行的编译的时间
+
+-print-search-dirs 显示编译器搜索路径
+
+多文件生成动态库
+gcc -fPIC -shared xxx1.c xxx2.c xxx3.c -o libxxx.so 
+gcc -fPIC -shared xxx1.o xxx2.o xxx3.o -o libxxx.so 
+
+静态库
+ar -rc libxxx.a xxx1.o xxx2.o xxx3.o
+
+<出错解决方法>：undefined reference to `sqrt'  
+collect2: error: ld returned 1 exit status
+表示没有sqrt函数的链接库。需要指定链接库。gcc中要使用sqrt就得链接math库，所以编码的执行需要这样写：gcc filename.c -lm
+
+写上#include stdio.h就会自动链接这些库
+
+8. vim
+/etc/vim/vimrc
+vim的配置文件
+
+功能插件安装
+下载的文件放入sr/share/vim/vim80相应的文件夹就行了
+
+vim filename
+首先进入普通模式。按i进入插入模式。在插入模式中按Esc可以回到普通模式。
+普通模式下:进入命令行模式,命令执行完毕后自动进入普通模式。
+
+一旦发现问题，
+普通模式按u 可以撤销上一步的操作，
+Ctrl+r 可恢复上一步被撤销的操作;
+
+普通模式中
+1）光标命令
+Ndd剪切包括光标所在行以下的N行，随后可以用p进行粘贴。
+NG 跳转到第N行
+w,b------使光标向前或向后跳过一个单词
+2) 编辑命令
+i,a----在光标的前,后插入字符命令(i=insert,a=append) 
+cw,dw ---- 自动进入插入模式，同时删除光标所在处的单词的命令 (c=change,d=delete) 
+x,d$,ndd ----剪切一个字符，光标所在处到行尾的所有字符，n行的命令
+3) 查找命令 
+直接输入/string, ?string -----从光标所在处向后/向前查找相应的字符串的命令
+执行上述命令一次后，再按n/N可以实现再次查找
+按下/后按上下键意识调出历史命令
+
+正则表达式
+在输入/后，可以输入正则表达式进行字符串查找，为了区分string与正则表达式，需要在某些符号前加\转义字符
+一直要写\就会很麻烦，所以vim提供了多种模式。
+\m，magic，除了$ . * ^ 之外其他元字符都要加反斜杠
+\v，verymagic不需要在符号前加\，比如{}，()，$ . * ^这些符号.但是d表示数字时还是要用\d
+
+对匹配行操作(g表示全局,d 删除 m 移动 t 拷贝 s 替换)     :[range]g/pattern/command
+对未匹配的行操作                                        :[range]g！/pattern/command
+对匹配的行作字符串替换                                  :[range]/pattern/newstring
+
+举例：
+查找回车                                                    /\v\n
+L"_LPAR"->wstring(L"_LPAR")                                 :%s/\v(L".{-}")/wstring(\1)/g
+删除m-n行内的空白行(g表示全局,d 删除 m 移动 t 拷贝 s 替换)  :m,ng/\v^$/d
+空白行替换为d                                               :m,ns/\v^$/d
+删除69-74行首的//		:69,74s/\v^\/\//
+行首添加//			:69,74s/\v^/\/\/
+
+
+4)拷贝复制命令 
+nyy,p -----拷贝光标所在n行到剪贴板/取出剪贴板中内容到光标下一行的命令
+
+命令模式中
+：set nu 显示行号
+：set showcmd 显示输入的部分命令
+：q!退出，强制退出
+：w写入保存
+：x 保存退出
+：%s/oldstring/newstring 在整个文章中用新的字符串替换旧的字符串
+：10,20s/oldstring/newstring/g 从10行到20行实现字符串替换
+:!cmd 执行外部shell命令. 
+    
+vim 多文件处理编辑涉及到的概念：window、buffer、tab（不常用）
+
+window 常用操作
+:split file 横分屏
+:vsplit file 竖分屏打开文件，没有file则表示分屏当前文件
+:split filepath 分屏打开文件
+
+buffer 即为文件加载的缓存区，修改后保存到磁盘就可以实现文件的修改操作
+:buf 2 选择第二个文件缓存区
+:bn 下一个 buffer
+:bp 上一个 buffer
+:bd 关闭当前 buffer, 需要先保存文件
+
+
+解决乱码问题
+:set fileencoding 查看现在文本的编码
+:set fenc=编码 以指定的编码格式保存文本
+:set enc=编码 以指定的编码显示文本
+:edit ++enc=编码 重新以cp936的编码方式加载文件
+
+解决fileencoding为latin1 简体Windows所使用（代码页cp936）的乱码问题
+:edit ++enc=cp936 重新以cp936的编码方式加载文件.
+:set fileencoding 查看编码方式是否改变
+:set fenc=utf-8 以utf-8编码，下次打开就不需要这么麻烦了
+
+实用插件：
+autocomplete——自动补全
+taglist —— 显示函数跳转，需要先安装ctag
+omnicppcomplete —— C语言自动补全
+
+
+9. 截屏
+shift+PrintScreen
+Alt+PrintScreen
+PrintScreen
+
+
+10. QTCreator 5.11.3
+安装 下载.run文件。  注意下载下来的文件由于权限会无法运行，必须chmod -R 777 XXX.run 
+查看 ls -l 出现权限x时，才能执行。执行后，出现图形界面安装窗口，傻瓜式安装。
+
+配置。 
+使用前必须，进行g++,gcc,java等编译路径的设定
+编译QT必须安装GL库
+sudo apt-get install libgl1-mesa-dev 
+
+
+
+.pro文件/.pri文件
+Qt开发中，pro文件是对正工程所有源码、编译、资源、目录等的全方位配置的唯一方式，pro文件的编写非常重要，以下对几个重要项进行说明
+pri文件是pro的打包
+
+qmake位于/home/xlh/Qt5.11.3/5.11.3/gcc_64/bin/qmake
+注意Ubuntu有自带的 qt版本，可以通过qtchooser -l 查看
+
+ 
+
+11. gnome-sushi
+按空格快速预览文件。按F切换预览方式
+安装方式：apt install gnome-sushi
+
+12. python
+目前Ubuntu中有如下版本：
+python3.5
+python2->python2.7           python3.5m
+python2.7         python3.6
+python2.7-config  python3.6m
+python2-config    python3m -> python3.6m
+python3 -> python3.6           python-config
+
+
+
+
+https://blog.csdn.net/a19990412/article/details/79185860
+安装  apt-get install python3-pyqt5 后
+Python3.6 3.6m 可以import PyQt5.QtWidgets,因此python3/3m自然也可以
+其他版本无法使用
+
+
+opencv版本为3.2.0，
+python3.6 IDE支持自动补全，查看方法为cv.__version__
+
+apt-get install python-opencv
+python2.7可以使用opencv
+
+apt-get install python3-opencv
+python3.6也可以使用opencv
+
+Assertion failed (size.width>0 && size.height>0) in imshow 原因是图像读取失败，导致宽高出现问题
+
+如何给特定版本安装模块？
+apt-get install python3-pip就可以实现python3.6的pip的安装
+然后利用python3.6 -mpip install package 去安装模块到python3.6版本中
+
+网络编程，重要的API
+英语单词API  r = requests.get('https://wordsapiv1.p.mashape.com/words/music')
+
+
+
+13. syndaemon
+防止打字的时候，误触发触摸屏。
+重要的一些配置
+-d 在后台运行
+-k 忽略一些辅助的按键，不如shift，ctrl和alt等
+-K 忽略组合键
+-i 按键后触摸屏回复使用的时间 一般为1～2s
+
+该软件可以通过 /etc/costume/shmconfig.fdi fdi文件配置
+
+
+14. weather 显示天气的小软件
+14.1 Gnome-Weather 很美的界面设计，应用集成到了顶部的日历中
+安装十分简单：sudo apt install gnome-weather
+打开显示天气有一定的延迟。
+
+14.2 Meteo 在中国无法使用
+
+14.3 OpenWeather Shell Extension
+sudo apt install gnome-shell-extension-weather 
+重新登录后，打开软件Tweaks，在Extension中Openweather，就可以在桌面的顶端菜单栏，时间的傍边显示天气。
+
+打开查看天气无延迟
+
+15. CPU/Disk温度检测或者内存，占用率检测
+
+首先下载传感器控制组件
+sudo apt-get install lm-sensors sensors-applet
+
+然后配置传感器
+sensor-detect 配置结果存储与/etc/modules
+
+安装硬盘温度检测 
+sudo apt-get install hddtemp 
+查看硬盘温度是否正常：
+hddtemp /dev/sda 会返回对应的温度
+然后以守护进程执行
+hddtemp -d /dev/sda /dev/sdb
+
+
+psensor是接收传感器数据并实现数据图形化的最好的软件，安装方式：
+sudo apt-get install psensor
+配置好后就可以在菜单栏里显示数据，温度过高还可以设置报警。
+
+16. firefox快捷键
+关闭页面 ctrl+W
+后退页面，右键鼠标
+切换页面 ctrl+tab  ctrl+小键盘数字键
+定位搜索栏 ctrl+F or ctrl+j
+收藏 ctrl+D
+
+
+17. 邮件发送
+
+sudo apt-get install mailutils
+安装时需要配置你的邮箱地址 xlh@nech>localhost
+
+发送邮箱可以用管道，也可以用<字符流,把某个文件发送出去
+echo "it is from ubuntu"|sudo mail -s "来自Linux" 2478967925@qq.com
+mail -s "xx" 邮箱主题
+-a 抄送邮箱
+
+sudo apt-get install mutt
+echo "from xlh"| mail linghui10@foxmail.com -A /mnt/Documents/保险保单.pdf 
+mutt -s "fsf" linghui10@foxmail.com < /mnt/Documents/100-语言/language.txt
+发送附件功能更强大，但是附件不能太大，一个mp3不能传送，只能传送一些较小的文档
+
+使用参考：https://blog.csdn.net/chijiaodaxie/article/details/77893464
+
+18. ftp协议 
+sudo apt-get install filezilla
+
+https://codbo.cn/blog-38.html
+https://blog.csdn.net/zcf1002797280/article/details/49805603
+sudo apt-get install smbclient
+
+19. Samba服务器设置
+
+Samba的功能：共享服务器上的文件和上面的设备,类似于网盘，可以上传也可以下载。
+Samba下的共享是针对局域网内的，而且下载和查看需要流量
+
+安装对应的软件 - sudo apt-get install samba samba-common
+
+工具 - sudo apt-get install smbclient   下载Samba的客户端， 
+       sudo apt-get install cifs-utils  mount的cifs文件系统的挂载扩展工具
+
+Samba的配置 
+1. sudo vim /etc/samba/smb.conf
+共享目录，是否可读可浏览可用，是否可以匿名访问，允许访问用户，禁止访问用户，允许修改文件的用户。
+
+2. 将允许访问的用户添加到Samba的用户数据库
+smbpasswd -a xlh 自动提示输入登录Samba的密码  之后链接Samba服务器就需要输入账号xlh和这个Samba密码
+
+电脑自身测试： 
+smbclient -L //127.0.0.1 -U user 用Samba客户端访问
+
+在同一个局域网中测试：
+手机开热点，电脑连接之。手机中下载了U-File的软件，可以实现电脑服务器的文件的查看和操作(配置为允许修改文件的用户)，但是下载文件时提示没有网络，必须链接网络流量才能使用
+
+外网(不属于服务器所在局域网的节点)访问服务器的实现：服务器和手机分别链接zju
+WLAN
+和移动数据。同时安装蒲公英软件，将两者纳入到一个虚拟的局域网中，用手机通过虚拟的 ip 可访问服务器。蒲公英支持手机端，Linux平台，windows平台和树莓派平台，组网十分方便
+
+蒲公英官网https://pgy.oray.com/download/
+
+无线wifi密码，是在无线路由器中进行设置和保存的。
+
+20.网络链接配置
+显示所有可用的wifi   sudo nmcli dev wifi
+使用网卡wlp3s0链接ZJUWLAN网络 sudo nmcli dev wifi connect "ZJUWLAN" ifname wlp3s0
+				或者用  nmcli connection up ZJUWLAN
+使用网卡wlp3s0创建热点  nmcli device wifi hotspot con-name MyHostspot ssid MyHostspotSSID password 12345 ifname wlp3s0
+
+配置文件的地址 -/etc/NetworkManager/
+
+
+21. ROS
+
+http://wiki.ros.org/melodic/Installation/Ubuntu 能够支持Ubuntu18.04操作系统
+
+安装地址位于 /opt/ros/
+
+21.0 小工具
+
+rospack 
+allows you to get information about packages. In this tutorial, we are only going to cover the find option, which returns the path to package.
+
+Usage: rospack find [package_name]
+
+roscd  = ros + cd
+
+rosls = ros + ls 
+
+
+22.0 android studio
+
+下载地址
+https://developer.android.com/studio/run/device#check-device-setup
+
+
+日志操作
+journalctl --disk-usage
+sudo journalctl --vacuum-size=400M  限制日志的大小
+
+自动删除旧内存和安装包
+sudo apt-get autoremove 
+
+
+
+23. github
+github ssh加密方式的配置
+ssh的秘钥一般放在~/.ssh的隐藏文件中，~/.ssh/中的public秘钥，复制到git服务其中
+https://help.github.com/en/articles/connecting-to-github-with-ssh
+
+
+24. xclip 
+剪切板缓存区，用于将字符串放入剪切板实现黏贴
+
+sudo apt-get install xclip
+
+xclip -sel clip < ~/.ssh/id_rsa.pub  将文件放入缓存区，实现黏贴
+
+
+
+

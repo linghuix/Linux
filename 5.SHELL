@@ -1,0 +1,203 @@
+在我们的linux系统中，sh是bash的一个软链接：
+$ which sh    
+/bin/sh
+
+$ ls -l /bin/sh 
+lrwxrwxrwx  1 root root 4 Mar 21  2007 /bin/sh -> bash
+
+那为什么上面的例子中还会出现问题呢？原因在于： bash程序执行，当“$0”是“sh”的时候， 则要求下面的代码遵循一定的规范，当不符合规范的语法存在时，则会报错， 所以可以这样理解， “sh”并不是一个程序，而是一种标准（POSIX）， 这种标准，在一定程度上保证了脚本的跨系统性（跨UNIX系统）
+
+5.0 SHELL 解释器
+bash
+~ -x file.sh  打印每一行命令以及当前状态，也可以使用sh -x
+
+在shell代码中使用以下两组命令可以控制在调试时的需要输出调试信息的代码段
+set -x 执行时显示参数和命令
+set +x 禁止调试
+
+set -v 当命令进行读取时显示输入
+set +v 禁止打印输入
+
+5. SHELL 算术运输
+let
+let var++/var+=6/var1+var2
+
+[]
+temp=$[var1+var2]
+
+(())
+temp=$((var+50))
+
+以上只支持整数运算
+
+bc
+支持浮点运算和高级函数。
+echo "4*56.89"|bc   echo "scale=50;6/8"|bc 设置小数点   echo "scale=50;$var/8"|bc  转化为2禁止
+echo "sqrt(50)"|bc
+
+6. SHELL数据结构
+
+6.0 shell的所有变量都是以字符串形式存储的,有空格的时候需要添加单引号或者双引号
+
+获取字符串长度
+${#var}
+
+6.1 普通数组 声明定义:var=(1 2 3 8 9)
+
+索引只能是整数
+
+使用方式
+引用值${var[3]}   打印全部元素 echo ${var[*/@]}
+改变元素var[2]=change
+数组长度echo ${#var[*/@]}
+
+6.2 关联数组 声明：declare -A var 定义：var[index]=var1
+
+echo ${var[*/@]}	打印全部的元素
+echo ${!var[*/@]}	打印全部的索引(包含0)
+
+7. 函数
+
+7.1 define 
+function fname()
+{
+statements;
+}
+或者
+fname()
+{
+statements;
+}
+
+分号只是用于分割代码段，可以不用任何分号也可以运行
+
+7.2 调用
+
+直接使用函数名 fname arg1 arg2 ; 传递参数
+fname()
+{
+echo $1, $2;	#访问形参1和2
+echo "$@";	#以列表的方式一次性的打印所有参数,扩展成"$1""$2""$3"
+echo "$*";	#类似于@，但是参数被作为一个实体,一个字符串"$1c$2c$3"
+return 0;	#函数返回值
+}
+
+7.3 递归函数
+fork 炸弹
+:(){ :|:& };:
+
+|这里是管道
+&表示后台执行
+
+该炸弹只能在bash内使用，应为其他shell,内置命令是优先级最高的。所以:的执行结果就是内置命令的结果，什么也不做，无法最为函数的名称。
+
+这里：函数不断的调用自身，生成进程，最终导致内存耗尽
+
+7.4 导出函数
+
+export -f fname
+函数也能像环境变量一样导出，这样函数的作用域就可以扩展到子进程中了
+
+7.5 函数返回值
+
+echo $?
+为零代表正常的退出
+
+7.6 向命令传递参数
+-k支持输入输入数字，-p,-v是可用选型，同事命令还接受一个文件名作为参数
+传递参数的方式有如下几种：
+cmd -pv -k 1 filename
+cmd -pvk 1 filename
+cmd filename -pvk 1
+
+分号只是用于分割代码段，可以不用任何分号也可以运行,分号只是用于分割代码段
+
+7.7 分之语句
+[ condition ] && action; # condition 为真 ，执行action
+[ condition ] || action; # condition 为假 ， 执行action
+注意[]与字母之间必须有空格
+
+7.8 算术比较
+[ $var -eq/ne/gt/lt/ge/le $var2 -a/o $var3 -eq $var4 ]
+# 比较语法 等于/不等/大于/小于/大于等于/小于等于 逻辑与-a/逻辑或-o
+
+ 
+8. SHELL 的特性
+
+8.1 管道功能
+shell最棒的性能，它能够将一个命令的输出作为另一个命令的输入。
+
+输入通常是stdin或者参数传递给命令。
+输出stderr和stdout二选一
+命令通常称为过滤器，用管道“|”连接每个过滤器
+cmd1| cmd2| cmd3
+
+ls| cat -n > out.txt 
+ls 输出传给cat -n，cat为通过stdin接收到的输入内容添加行号，并重定向到文件out.txt
+
+获取管道序列输出
+1. 子shell （subshell）
+cmd_output=$(COMMAND)
+cmd_output=$(ls| cat -n)      	()内为子shell中执行的命令与当前shell终端无关
+echo $cmd_output		会自动去除换行符
+echo "$cmd_output"		保留换行符
+2. 反引用
+cmd_output=`COMMANDS`		`由~所在的键输入
+echo $cmd_output
+
+subshell
+本身是一个独立的进程，可以使用（）操作符来定义一个子shell
+pwd
+(cd /bin;ls)
+pwd
+子shell执行时，不会对当前shell产生任何影响，所有的改变仅限于子shell内
+
+8.2 字段分隔符和迭代器
+
+分隔符IFS internal Field Separator 
+是存储界定符的环境变量，是当前shell环境使用的默认界定字符串。默认为回车或者其他空白字符
+data="name,sex,loc"
+oldIFS=$IFS
+IFS=','
+echo "$IFS"	;显示修改的值
+for item in $data; do echo Item:$item; done
+IFS=oldIFS
+>>
+Item:name
+Item:sex
+Item:loc
+
+迭代器 for循环
+for var in list;
+do
+commands;
+done
+
+普通for循环也可以使用
+for(i=;i<;i++){
+command;
+}
+
+list可以是字符串，也可以是这样生成：{1..50} {a..h}  {A..M}
+
+
+while 循坏
+while condition
+do
+commands;
+done
+
+until 循环
+x=0;
+until [ $x -eq 9 ];
+do let x++;echo $x;
+done
+
+
+
+
+
+
+
+
+
