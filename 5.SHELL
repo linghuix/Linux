@@ -1,3 +1,5 @@
+终端：可以ctrl+T 添加新的页面，也可以ctrl+w 添加新的窗口
+
 在我们的linux系统中，sh是bash的一个软链接：
 $ which sh    
 /bin/sh
@@ -195,8 +197,8 @@ done
 
 
 
-
-
+有用的shell 脚本：
+&表示后台执行
 
 
 

@@ -1,5 +1,9 @@
 # using "--help" you can see the detail usage of the command
 
+～/.profile 登录时自动执行
+～/.bashrc  bash配置
+
+
 grub-install 
 --boot-directory=DIR   install GRUB images under the directory DIR/grub
                              instead of the boot/grub directory
@@ -96,6 +100,7 @@ which
 
 whereis
 只能搜索程序名，二进制，man说明文件和源代码文件。基于内建数据库，效率很高。 
+
 locate
 搜索系统内建文档数据库达到快读寻找文件。数据库由updatedb来更新，每天跑一次，所以最近新建的可能会找不到。支持正则匹配
 
@@ -137,10 +142,6 @@ grep
 
 wc
 
-ps
-查看后台执行的进程
-ps -e 显示所有的后台进程
-ps -u XXX 显示某个用户的后台进程
 
 top
 
@@ -165,6 +166,8 @@ sudo
 
 chmod
 改变文件或者目录的读写权限
+chmod 777 file
+或者 chmod u/g/o +x/r/w filename
 
 chown
 改变文件的拥有者
@@ -179,10 +182,10 @@ https://blog.csdn.net/lincyang/article/details/20922749
 
 # 4. 系统状态
 
-函数返回值变量？
-当为非零时，表示刚刚的命令执行失败。读取方式 echo $?
+4.1
 
-ctrl+D 终止这个进程
+top
+相当于 Windows 的任务管理器，显示前十个占用ＣＰＵ最大的进程
 
 pwd 
 当前工作目录路径显示
@@ -190,9 +193,6 @@ pwd
 env
 显示当前终端的环境变量。重要的环境变量有PATH(通常定义在etc/environment)、SHELL、UID(0-超级用户)、USER、PWD、HOME，显示方式$var
 添加bin目录到PATH —— PATH=“$PATH:/home/user/bin”,各个目录之间以冒号分割
-
-pgrep gedit/...
-获取某个进程的ID. [[查看某个进程的环境变量]] cat /proc/ID/environ
 
 fdisk -l
 see the detail information of the disk in the computer linux detects. very powerful cmd.
@@ -229,6 +229,23 @@ source
 logout
 用于退出当前的登录用户，如果是root，那么会返回与原来的用户
 
+4.2 进程
+
+ctrl+D 终止正在进行的这个进程
+
+kill -9 终止后台运行的进程
+
+ps
+查看后台执行的进程
+ps -e 显示所有的后台进程
+ps -u XXX 显示某个用户的后台进程
+
+
+函数返回值变量？
+当为非零时，表示刚刚的命令执行失败。读取方式 echo $?
+
+pgrep Command
+获取某个进程的ID. [[查看某个进程的环境变量]] cat /proc/ID/environ
 
 5. 终端命令
 
@@ -250,6 +267,29 @@ stty echo 允许发送输出
 
 date
 显示日期。详细参考[1]P38
+
+date -R    查看当前系统时间   Tue, 05 Nov 2019 20:06:54 +0800   时区是：-+0800　东八区
+
+修改时间
+sudo date -s MM/DD/YY //修改日期
+sudo date -s hh:mm:ss //修改时间
+
+在修改时间以后，修改硬件CMOS的时间
+
+sudo hwclock --systohc //非常重要，如果没有这一步的话，后面时间还是不准，将时间写入BIOS里
+
+tzselect　用于设置时区
+
+
+上述提到的是手动设置时间到一个时间点，可能与当前网络的时间有误差。下面介绍一下与时间服务器上的时间同步的方法
+1.  安装ntpdate工具
+# sudo apt-get install ntpdate
+
+2.  设置系统时间与网络时间同步
+# ntpdate cn.pool.ntp.org
+
+3.  将系统时间写入硬件时间
+# hwclock --systohc
 
 sleep
 延迟一定的时间

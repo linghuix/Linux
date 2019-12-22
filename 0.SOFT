@@ -137,6 +137,8 @@ collect2: error: ld returned 1 exit status
 写上#include stdio.h就会自动链接这些库
 
 8. vim
+基于命令行的，超级强大的编辑器
+
 /etc/vim/vimrc
 vim的配置文件
 
@@ -171,7 +173,7 @@ x,d$,ndd ----剪切一个字符，光标所在处到行尾的所有字符，n行
 \m，magic，除了$ . * ^ 之外其他元字符都要加反斜杠
 \v，verymagic不需要在符号前加\，比如{}，()，$ . * ^这些符号.但是d表示数字时还是要用\d
 
-对匹配行操作(g表示全局,d 删除 m 移动 t 拷贝 s 替换)     :[range]g/pattern/command
+对匹配行操作(g表示全局,command有:d 删除 m 移动 t 拷贝 s 替换)     :[range]g/pattern/command
 对未匹配的行操作                                        :[range]g！/pattern/command
 对匹配的行作字符串替换                                  :[range]/pattern/newstring
 
@@ -226,7 +228,16 @@ buffer 即为文件加载的缓存区，修改后保存到磁盘就可以实现�
 autocomplete——自动补全
 taglist —— 显示函数跳转，需要先安装ctag
 omnicppcomplete —— C语言自动补全
+ctags - 查看代码神器,匹敌source insight   
+        参考资料: https://linuxhint.com/vim_ctags/
+                 https://www.cnblogs.com/feisky/archive/2012/02/07/2341932.html
 
+
+ctags   sudo apt-get install ctags
+1).Select Program Folder
+2).Configure Ctags (set tags=tags;/)
+3).Create tags (ctags -R *)
+4)Searching tag by pattern
 
 9. 截屏
 shift+PrintScreen
@@ -259,7 +270,7 @@ qmake位于/home/xlh/Qt5.11.3/5.11.3/gcc_64/bin/qmake
 安装方式：apt install gnome-sushi
 
 12. python
-目前Ubuntu中有如下版本：
+目前我的Ubuntu系统中有如下版本：
 python3.5
 python2->python2.7           python3.5m
 python2.7         python3.6
@@ -269,13 +280,14 @@ python3 -> python3.6           python-config
 
 
 
-
+* python3 pyqt5的安装
 https://blog.csdn.net/a19990412/article/details/79185860
 安装  apt-get install python3-pyqt5 后
 Python3.6 3.6m 可以import PyQt5.QtWidgets,因此python3/3m自然也可以
 其他版本无法使用
 
 
+*　python3和python2的opencv安装
 opencv版本为3.2.0，
 python3.6 IDE支持自动补全，查看方法为cv.__version__
 
@@ -287,8 +299,12 @@ python3.6也可以使用opencv
 
 Assertion failed (size.width>0 && size.height>0) in imshow 原因是图像读取失败，导致宽高出现问题
 
-如何给特定版本安装模块？
+
+* 如何给特定版本的python安装模块？
+
+首先必须确保，安装有pip模块
 apt-get install python3-pip就可以实现python3.6的pip的安装
+
 然后利用python3.6 -mpip install package 去安装模块到python3.6版本中
 
 网络编程，重要的API
@@ -300,7 +316,7 @@ apt-get install python3-pip就可以实现python3.6的pip的安装
 防止打字的时候，误触发触摸屏。
 重要的一些配置
 -d 在后台运行
--k 忽略一些辅助的按键，不如shift，ctrl和alt等
+-k 忽略一些辅助的按键，比如shift，ctrl和alt等
 -K 忽略组合键
 -i 按键后触摸屏回复使用的时间 一般为1～2s
 
@@ -344,7 +360,7 @@ sudo apt-get install psensor
 关闭页面 ctrl+W
 后退页面，右键鼠标
 切换页面 ctrl+tab  ctrl+小键盘数字键
-定位搜索栏 ctrl+F or ctrl+j
+定位搜索栏 ctrl+F or ctrl+j ctrl+l
 收藏 ctrl+D
 
 
@@ -358,7 +374,14 @@ echo "it is from ubuntu"|sudo mail -s "来自Linux" 2478967925@qq.com
 mail -s "xx" 邮箱主题
 -a 抄送邮箱
 
-sudo apt-get install mutt
+```shell
+# 登录后自动发送基本信息到邮箱
+date > ~/.mylog
+df >> ~/.mylog
+cat ~/.mylog |sudo mail -s "dailyInformation" 2478967925@qq.com
+```
+
+sudo apt-get install mutt 
 echo "from xlh"| mail linghui10@foxmail.com -A /mnt/Documents/保险保单.pdf 
 mutt -s "fsf" linghui10@foxmail.com < /mnt/Documents/100-语言/language.txt
 发送附件功能更强大，但是附件不能太大，一个mp3不能传送，只能传送一些较小的文档
@@ -435,6 +458,7 @@ rosls = ros + ls
 下载地址
 https://developer.android.com/studio/run/device#check-device-setup
 
+打开方式：；bash /usr/local/android-studio/bin/studio.sh
 
 日志操作
 journalctl --disk-usage
@@ -453,37 +477,50 @@ sudo apt-get install xclip
 xclip -sel clip < ~/.ssh/id_rsa.pub  将文件放入缓存区，实现黏贴
 
 
+25. gedit 
+
+Ubuntu自带的基于图形界面的超级强大的编辑器
+
+安装插件  sudo apt-get install gedit-plugins
+在编辑器preference中开启插件，在设置中开启所有的view，然后在就可以愉快的使用了
+
+快捷建也可以很容易的查看
+
+
+强大的正则表达式：
+http://www.runoob.com:80/html/html-tutorial.html
+
+-----------------------------------
+(\w+):\/\/([^/:]+)(:\d*)?([^# ]*)  ---》  {\2}[\1](\3)\4
+{www.runoob.com}[http](:80)/html/html-tutorial.html
 
 
 
+| 292998 | 5894494 | 4546 7897878 78797 |
+| 292998 | 5894494 | 4546 7897878 78797 |
+| 292998 | 5894494 | 4546 7897878 78797 |
+| 292998 | 5894494 | 4546 7897878 78797 |
+---------------------------------------------------
+提取中间的数字，不包含空格等
+[^\|] 匹配非|的字符，[^0-9] 匹配非数字字符  
+\|([^\|]*) \|[^0-9]*([^\|]*)[^0-9]* \|([^\|]*) \|    ----》    fool{\2}
+5894494
 
 
+26. typora
+最好用的markdown编辑器
 
+安装：
+# or run:
+# sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys BA300B7755AFCFAE
+wget -qO - https://typora.io/linux/public-key.asc | sudo apt-key add -
 
+# add Typora's repository
+sudo add-apt-repository 'deb https://typora.io/linux ./'
+sudo apt-get update
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# install typora
+sudo apt-get install typora
 
 
 

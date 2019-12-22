@@ -14,7 +14,8 @@ git config --global user.name "linghuix"
 ```
 git init
 git status 
-git log
+git log --graph 
+git branch [branch name]
 ```
 
 ### Work direatory to Stage
@@ -23,14 +24,14 @@ git log
 git diff [file]               比较这两个地方的文件的不同
 git add [file]
 git rm [file]
-git checkout -- [file]
+git checkout -- [file]      to un Work direatory 
+git reset HEAD <file>..."   to unstage
 ```
 
 ### Stage to Repository
 
 ```
 git commit -m [message]     to commit
-git reset HEAD <file>..."   to unstage
 ```
 
 ##  Repository to Repository 版本回退
@@ -49,13 +50,11 @@ git remote -v       查看远程地址信息
 git push -f --set-upstream [origin] [master]
 ```
 
-## 
 
-[github ssh加密方式的配置](https://help.github.com/en/articles/connecting-to-github-with-ssh)
 
-ssh的秘钥一般放在~/.ssh的隐藏文件中，~/.ssh/中的public秘钥，复制到git服务其中
 
-注意，一对ssh公钥与私钥只能绑定一个仓库！！！！
+
+
 
 ## error
 
@@ -64,3 +63,13 @@ error: src refspec master does not match any
 
 Merge made by the 'recursive' strategy
 git合并2个分支的策略
+
+
+## other
+
+[github ssh加密方式的配置](https://help.github.com/en/articles/connecting-to-github-with-ssh)
+
+ssh的秘钥一般放在~/.ssh的隐藏文件中，~/.ssh/中的public秘钥，复制到git服务其中
+
+注意，一对ssh公钥与私钥只能绑定一个仓库！！！！
+
