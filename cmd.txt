@@ -100,12 +100,16 @@ which
 
 whereis
 只能搜索程序名，二进制，man说明文件和源代码文件。基于内建数据库，效率很高。 
+`whereis -l 显示搜索的目录路径  主要有/usr/lib /lib /usr/local/lib`
+
 
 locate
 搜索系统内建文档数据库达到快读寻找文件。数据库由updatedb来更新，每天跑一次，所以最近新建的可能会找不到。支持正则匹配
+`whereis *opencv*.so.* 搜索opencv的库`
 
 find
-在文件树中查找文件。效率较低
+在文件树中查找文件 并执行相应的动作(默认是print,也可以是delete,exec)。效率较低
+`find path -iname "*opencv*"`
 
 2.5 读取
 
